@@ -1,0 +1,88 @@
+const menu = {
+  _courses: {
+    // appetizers getters and setters
+    _appetizers: [],
+    get appetizers() {
+      return this._appetizers;
+    },
+    set appetizers(apps){
+      this._appetizers = apps;
+    },
+    // mains getters and setters
+    _mains: [],
+    get mains() {
+      return this._mains;
+    },
+    set mains(mains){
+      this._mains = mains;
+    },
+    // desserts getters and setters
+    _desserts: [],
+    get desserts() {
+      return this._desserts;
+    },
+    set desserts(desserts) {
+      this._desserts = desserts;
+    },
+  },
+  // courses getter
+  get courses() {
+    const obj = {
+      'appetizers': this.appetizers,
+      'mains': this.mains,
+      'desserts': this.desserts,
+    };
+    return obj;
+  },
+  // add dish function
+  addDishToCourse(courseName, dishName, dishPrice){
+    const dish = {
+      name: dishName,
+      price: dishPrice,
+    };
+    // console.log(`${dish.name}, ${dish.price}`);
+    if(courseName === 'appetizers'){
+      this._courses._appetizers.push(dish);
+    } else if(courseName === 'mains'){
+      this._courses._mains.push(dish);
+    } else {
+      this._courses._desserts.push(dish);
+    }
+  },
+  // get random dish given a course
+  getRandomDishFromCourse(courseName){
+    let dishes;
+    if(courseName === 'appetizers'){
+       dishes = this._courses.appetizers;
+    } else if(courseName === 'mains'){
+      dishes = this._courses.mains;
+    } else{
+      dishes = this._courses.desserts;
+    }
+    // console.log(dishes);
+    const index = Math.floor(Math.random() * dishes.length);
+    return dishes[index];
+  },
+  // generate random meal and return formatted string
+  generateRandomMeal(){
+    const appetizer = this.getRandomDishFromCourse('appetizers');
+    const main = this.getRandomDishFromCourse('mains');
+    const dessert = this.getRandomDishFromCourse('dessert');
+    const totalPrice = appetizer.price + main.price + dessert.price;
+    return `Appetizer: ${appetizer.name} \nMain: ${main.name} \nDessert: ${dessert.name}\nTotal price: ${totalPrice}`;
+  },
+};
+// Adding 10 dishes to course
+menu.addDishToCourse('mains', 'steak', 15);
+menu.addDishToCourse('appetizers', 'spring rolls', 5);
+menu.addDishToCourse('dessert', 'cheesecake', 7);
+menu.addDishToCourse('mains', 'enchilada', 12);
+menu.addDishToCourse('appetizers', 'salad', 4);
+menu.addDishToCourse('dessert', 'brownies', 6);
+menu.addDishToCourse('mains', 'tacos', 11);
+menu.addDishToCourse('appetizers', 'grilled cheese', 8);
+menu.addDishToCourse('dessert', 'ice cream', 3);
+menu.addDishToCourse('dessert', 'apple pie', 9);
+// Generate random meal and log it
+let meal = menu.generateRandomMeal();
+console.log(meal);
